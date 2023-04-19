@@ -43,4 +43,44 @@ public class JobTest {
         assertFalse(jobOne.equals(jobTwo));
     }
 
+    @Test
+    public void testToStringStartsAndEndsWithNewLine () {
+        Job jobOne = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        assertEquals('\n', jobOne.toString().charAt(0));
+        assertEquals('\n', jobOne.toString().charAt(jobOne.toString().length() - 1));
+    }
+
+    @Test
+    public void testToStringContainsCorrectLabelsAndData() {
+        Job jobOne = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        assertEquals("\nID: " + jobOne.getId() + "\n" +
+                "Name: " + jobOne.getName() + "\n" +
+                "Employer: " + jobOne.getEmployer() + "\n" +
+                "Location: " + jobOne.getLocation() + "\n" +
+                "Position Type: " + jobOne.getPositionType() + "\n" +
+                "Core Competency: " + jobOne.getCoreCompetency() + "\n"
+                ,jobOne.toString());
+    }
+
+    @Test
+    public void testToStringHandlesAllFieldsEmptyExceptId() {
+        Job jobOne = new Job("", new Employer(""), new Location(""), new PositionType(""), new CoreCompetency(""));
+        assertEquals(jobOne.toString(), "OOPS!  This job does not seem to exist.");
+    }
+
+    @Test
+    public void testToStringHandlesEmptyField() {
+        Job jobOne = new Job("Product Tester", new Employer(""), new Location(""), new PositionType(""), new CoreCompetency(""));
+        String dataNotAvailable = "Data not available";
+        assertEquals("\nID: " + jobOne.getId() + "\n" +
+                        "Name: " + jobOne.getName() + "\n" +
+                        "Employer: " + dataNotAvailable + "\n" +
+                        "Location: " + dataNotAvailable + "\n" +
+                        "Position Type: " + dataNotAvailable + "\n" +
+                        "Core Competency: " + dataNotAvailable + "\n"
+                ,jobOne.toString());
+    }
+
+
+
 }
